@@ -22,7 +22,7 @@ const Farmer = () => {
     const { userData } = useUser();
 
     handlePost = async () => {
-        await axios.post(`${BASE_URL}:8000/user/chat`, {
+        await axios.post(`${BASE_URL}/user/chat`, {
             phone_number: userData.phone,
             first_name: userData.fname,
             last_name: userData.lname,
@@ -34,7 +34,7 @@ const Farmer = () => {
 
     const fetchData = () => {
         axios
-            .get(`${BASE_URL}:8000/user/chat`)
+            .get(`${BASE_URL}/user/chat`)
             .then((response) => {
                 setData(response.data);
                 setLoading(false);
@@ -49,7 +49,7 @@ const Farmer = () => {
     const handleLike = async (chatid) => {
         if (!disabledButtons[chatid]) {
             try {
-                await axios.post(`${BASE_URL}:8000/user/chat/${chatid}/like`);
+                await axios.post(`${BASE_URL}/user/chat/${chatid}/like`);
                 setDisabledButtons(prevState => ({ ...prevState, [chatid]: true }));
             } catch (error) {
                 console.error(error);
@@ -60,7 +60,7 @@ const Farmer = () => {
     const handleDislike = async (chatid) => {
         if (!disabledButtons[chatid]) {
             try {
-                await axios.post(`${BASE_URL}:8000/user/chat/${chatid}/dislike`);
+                await axios.post(`${BASE_URL}/user/chat/${chatid}/dislike`);
                 setDisabledButtons(prevState => ({ ...prevState, [chatid]: true }));
             } catch (error) {
                 console.error(error);

@@ -18,7 +18,7 @@ const Expert = ({ }) => {
 
     const fetchData = () => {
         axios
-            .post(`${BASE_URL}:8000/history`, { phone: userData.phone })
+            .post(`${BASE_URL}/history`, { phone: userData.phone })
             .then((response) => {
                 setData(response.data);
                 setLoading(false);

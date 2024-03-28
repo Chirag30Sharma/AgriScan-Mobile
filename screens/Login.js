@@ -54,7 +54,7 @@ const Login = ({ navigation }) => {
   }
 
   const beforeNavigation = async () => {
-    await axios.post(`${BASE_URL}:8000/user/login`, {
+    await axios.post(`${BASE_URL}/user/login`, {
       "phone_number": phone,
       "password": password
     }).then(response => {

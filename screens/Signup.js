@@ -35,7 +35,7 @@ const Signup = ({ navigation }) => {
 
   const beforeNavigation = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}:8000/user/registration`, {
+      const response = await axios.post(`${BASE_URL}/user/registration`, {
         first_name: fname,
         last_name: lname,
         phone_number: phone,

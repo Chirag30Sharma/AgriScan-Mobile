@@ -4,6 +4,8 @@ import React from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { Dimensions } from 'react-native';
 import * as FileSystem from 'expo-file-system';
+import * as Location from 'expo-location';
+
 import axios from 'axios'
 import { useUser } from '../global/UserContext';
 import { BASE_URL } from '@env';
@@ -25,7 +27,7 @@ const Gallery = () => {
     const submitImage = async () => {
         try {
             const imageBase64 = await FileSystem.readAsStringAsync(image, { encoding: 'base64' });
-            await axios.post(`${BASE_URL}:8000/upload/image`, {
+            await axios.post(`${BASE_URL}/upload/image`, {
                 "photo": imageBase64,
                 "description": desc,
                 "image_path": image.toString(),
@@ -46,7 +48,59 @@ const Gallery = () => {
         setImage(null)
     }
 
-    const pickImage = async () => {
+    const takePhoto = async () => {
+        // Request camera and location permissions
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        const locationStatus = await Location.requestForegroundPermissionsAsync();
+    
+        if (status !== 'granted' || locationStatus.status !== 'granted') {
+            alert('Sorry, we need camera and location permissions to make this work!');
+            return;
+        }
+    
+        // Get the current location
+        const location = await Location.getCurrentPositionAsync({});
+    
+        // Launch the camera with location data
+        const result = await ImagePicker.launchCameraAsync({
+            allowsEditing: false,
+            aspect: [4, 3],
+            quality: 1,
+            exif: true, // Include EXIF metadata (required for geotagging)
+            metadata: {
+                // Include location data in the EXIF metadata
+                location: {
+                    coords: {
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                    },
+                },
+            },
+        });
+    
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+            console.log(result.assets[0].uri);
+            // Send the captured image to the server
+            try {
+                const imageBase64 = await FileSystem.readAsStringAsync(result.assets[0].uri, { encoding: 'base64' });
+                await axios.post(`${BASE_URL}/upload/image`, {
+                    "photo": imageBase64,
+                    "description": desc,
+                    "image_path": result.assets[0].uri.toString(),
+                    "phone_number": userData.phone,
+                    "first_name": userData.fname,
+                    "last_name": userData.lname
+                }).then((res) => {
+                    console.log(res.status);
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            alert('You did not take a photo');
+        }
+    };    const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: false,
@@ -124,6 +178,10 @@ const Gallery = () => {
             </View>
 
             <View style={styles.before}>
+                <TouchableOpacity style={styles.beforeButton} onPress={takePhoto}>
+                        <Text style = {{fontSize: 18,}}>Click A Picture</Text>
+                    </TouchableOpacity>
+
                 <TouchableOpacity style={styles.beforeButton} onPress={pickImage}>
                     {/* <Image source={require('../assets/upload.png')} style={{ width: 100, height: 100 }} /> */}
                     <Text style = {{fontSize: 18,}}>Upload Image</Text>

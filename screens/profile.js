@@ -58,7 +58,7 @@ const Profile = () => {
     }
   
     try {
-      const response = await axios.post(`${BASE_URL}:8000/changepassword`, {
+      const response = await axios.post(`${BASE_URL}/changepassword`, {
         currentPassword: currentPassword,
         newPassword: newPassword,
         confirmPassword: confirmNewPassword,
