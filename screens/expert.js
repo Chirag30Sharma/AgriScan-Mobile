@@ -55,20 +55,23 @@ const Expert = ({ }) => {
                         style={styles.list}
                         renderItem={({ item }) => (
                             <View key={item._id} style={styles.card}>
-                                <Text style={{ textAlign: 'center' }}>Diagnose: </Text>
-                                
-                                {/* {item.photo && (
-                                    <Image
-                                        source={{ uri: `data:image/jpeg;base64,${item.photo}` }}
-                                        style={{ width: 100, height: 100 }} // Adjust the width and height as needed
-                                    />
-                                )} */}
-
-                                <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>{item.diagnosis}</Text>
-                                <Text style={{ textAlign: 'center' }}>______________________________</Text>
-                                <Text style={{ paddingTop: 15, textAlign: 'center' }}>{item.prescription}</Text>
-                                <Text style={{ paddingTop: 15, textAlign: 'center' }}>Possible Remedies:</Text>
-                                <Text style={{ paddingTop: 15, textAlign: 'center' }}>{item.steps_to_be_taken}</Text>
+                                <View style={{ flexDirection: 'row' }}>
+                                    {item.photo && (
+                                        <Image
+                                            source={{ uri: `data:image/jpeg;base64,${item.photo}` }}
+                                            style={{ width: 100, height: 240, alignSelf: 'center' }}
+                                        />
+                                    )}
+                                    <View style={{ marginLeft: 10, flex: 1 }}>
+                                        <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Diagnose: </Text>
+                                        <Text style={{ textAlign: 'center', fontSize: 15 }}>{item.diagnosis}</Text>
+                                        <Text style={{ textAlign: 'center' }}>_____________________________</Text>
+                                        <Text style={{ paddingTop: 15, textAlign: 'center', fontWeight: 'bold' }}>Prescription: </Text>
+                                        <Text style={{ paddingTop: 15, textAlign: 'center', fontSize: 15 }}>{item.prescription}</Text>
+                                        <Text style={{ paddingTop: 15, textAlign: 'center', fontWeight: 'bold' }}>Possible Remedies:</Text>
+                                        <Text style={{ paddingTop: 15, textAlign: 'center', fontSize: 15 }}>{item.steps_to_be_taken}</Text>
+                                    </View>
+                                </View>
                             </View>
                         )}
                     />

@@ -12,6 +12,7 @@ const Signup = ({ navigation }) => {
   const [lname, setLname] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handlePhone = (text) => {
     setPhone(text);
@@ -25,12 +26,16 @@ const Signup = ({ navigation }) => {
   const handlePassword = (text) => {
     setPassword(text);
   };
+  const handleConfirmPassword = (text) => {
+    setConfirmPassword(text);
+  };
 
   const setNull = () => {
     setFname('');
     setLname('');
     setPhone('');
     setPassword('');
+    setConfirmPassword('');
   };
 
   const beforeNavigation = async () => {
@@ -41,7 +46,7 @@ const Signup = ({ navigation }) => {
         phone_number: phone,
         password: password,
       });
-  
+
       if (response.status === 201) {
         navigation.navigate('Login');
       } else {
@@ -54,7 +59,7 @@ const Signup = ({ navigation }) => {
       setNull(); // Reset form fields regardless of success or failure
     }
   };
-  
+
   return (
     <LinearGradient
       colors={['#BCFFB2', '#BF9E9E']}
@@ -84,47 +89,45 @@ const Signup = ({ navigation }) => {
               <Text style={styles.label}>Phone Number:</Text>
             </View>
             <TextInput
-              style={styles.inputStyle}
+              style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
               keyboardType="numeric"
               placeholder="Enter your Phone Number"
-              // placeholderTextColor="black"
+              value={phone}
               onChangeText={handlePhone}
             />
 
-            <View style = {styles.nameContainer}>
+            <View style={styles.nameContainer}>
               <View style={styles.name}>
                 <Text style={styles.label}>First Name:</Text>
 
                 <TextInput
-                style={styles.inputStyle}
-                placeholder="Enter your first name"
-                // placeholderTextColor="black"
-                onChangeText={handleFname}
-              />
+                  style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
+                  placeholder="Enter your first name"
+                  value={fname}
+                  onChangeText={handleFname}
+                />
               </View>
-              
 
               <View style={styles.name}>
                 <Text style={styles.label}>Last Name:</Text>
 
                 <TextInput
-                style={styles.inputStyle}
-                placeholder="Enter your last name"
-                // placeholderTextColor="black"
-                onChangeText={handleLname}
-              />
+                  style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
+                  placeholder="Enter your last name"
+                  value={lname}
+                  onChangeText={handleLname}
+                />
               </View>
-              
             </View>
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Password:</Text>
             </View>
             <TextInput
-              style={styles.inputStyle}
+              style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
               placeholder="Enter your password"
-              // placeholderTextColor="black"
               secureTextEntry={true}
+              value={password}
               onChangeText={handlePassword}
             />
 
@@ -132,10 +135,11 @@ const Signup = ({ navigation }) => {
               <Text style={styles.label}>Confirm Password:</Text>
             </View>
             <TextInput
-              style={styles.inputStyle}
+              style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
               placeholder="Confirm your password"
-              // placeholderTextColor="black"
               secureTextEntry={true}
+              value={confirmPassword}
+              onChangeText={handleConfirmPassword}
             />
 
             <View style={styles.buttonContainer}>
