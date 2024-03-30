@@ -118,13 +118,23 @@ const Profile = () => {
         </View>
 
         <Button
-          title="Crops grown"
+          title="Edit Profile"
           filled
           style={styles.editButton}
           onPress={() => {
             navigation.navigate('EditProfile');
           }}
         />
+
+        <Button
+          title="Crops grown"
+          filled
+          style={styles.editButton}
+          onPress={() => {
+            navigation.navigate('CropGrown');
+          }}
+        />
+
 
         <Button
           title="Change Password"

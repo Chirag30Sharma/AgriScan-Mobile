@@ -8,6 +8,7 @@ import Login from './screens/Login'
 import Signup from './screens/Signup'
 import Profile from './screens/profile';
 import EditProfile from './screens/EditProfile'
+import CropGrown from './screens/CropGrown';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,13 @@ export default function App() {
             <Stack.Screen
               name="EditProfile"
               component={EditProfile}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="CropGrown"
+              component={CropGrown}
               options={{
                 headerShown: false,
               }}
