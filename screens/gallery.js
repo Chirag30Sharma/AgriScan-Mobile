@@ -44,7 +44,7 @@ const Gallery = () => {
                 "phone_number": userData.phone,
                 "first_name": userData.fname,
                 "last_name": userData.lname,
-                "location": locationObject.coords.longitude + ',' + locationObject.coords.latitude,
+                "location": locationObject.coords.latitude + ',' + locationObject.coords.longitude,
             }).then(async (res) => {
                 console.log(res.status);
                 if (res.status === 200) {
@@ -92,7 +92,7 @@ const Gallery = () => {
                     "phone_number": userData.phone,
                     "first_name": userData.fname,
                     "last_name": userData.lname,
-                    "location": locationObject.coords.longitude + ',' + locationObject.coords.latitude,
+                    "location": locationObject.coords.latitude + ',' + locationObject.coords.longitude,
                 });
                 console.log(response.status);
                 if (response.status === 200) {
@@ -136,7 +136,7 @@ const Gallery = () => {
                     "phone_number": userData.phone,
                     "first_name": userData.fname,
                     "last_name": userData.lname,
-                    "location": locationObject.coords.longitude + ',' + locationObject.coords.latitude,
+                    "location": locationObject.coords.latitude + ',' + locationObject.coords.longitude,
                 });
                 console.log(response.status);
                 if (response.status === 200) {

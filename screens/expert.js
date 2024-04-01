@@ -18,13 +18,13 @@ const Expert = ({ }) => {
 
     const fetchData = () => {
         axios
-            .post(`${BASE_URL}/history`, { phone: userData.phone })
+            .post(`${BASE_URL}/history`, { "phone_number": userData.phone })
             .then((response) => {
                 setData(response.data);
                 setLoading(false);
             })
             .catch((error) => {
-                console.error(error);
+                console.error('Error fetching data:', error);
                 setLoading(true);
             });
     };
@@ -63,6 +63,8 @@ const Expert = ({ }) => {
                                         />
                                     )}
                                     <View style={{ marginLeft: 10, flex: 1 }}>
+                                        <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Disease: </Text>
+                                        <Text style={{ textAlign: 'center', fontSize: 15 }}>{item.predicted_label}</Text>
                                         <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Diagnose: </Text>
                                         <Text style={{ textAlign: 'center', fontSize: 15 }}>{item.diagnosis}</Text>
                                         <Text style={{ textAlign: 'center' }}>_____________________________</Text>
