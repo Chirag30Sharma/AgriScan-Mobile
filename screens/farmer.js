@@ -4,6 +4,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { Dimensions } from 'react-native';
 import axios from 'axios'
 import { BlurView } from 'expo-blur';
+import * as FileSystem from 'expo-file-system';
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from 'react-native';
 import { useUser } from '../global/UserContext';
 import { BASE_URL } from '@env';
 
@@ -14,6 +18,7 @@ const Farmer = () => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [imageBase64, setImageBase64] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -21,16 +26,67 @@ const Farmer = () => {
 
     const { userData } = useUser();
 
+    const handleImagePicker = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      
+        if (status !== 'granted') {
+          console.log('Permission to access photo library was denied');
+          return;
+        }
+      
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+      
+        if (!result.canceled) {
+          const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+            encoding: 'base64',
+          });
+          setImageBase64(`data:image/jpeg;base64,${base64}`);
+        }
+      };
+    
+    const compressBase64 = async (base64) => {
+        try {
+          const compressed = await ImageManipulator.manipulateAsync(
+            base64,
+            [
+              {
+                resize: {
+                  width: 800, // Adjust the desired width for compression
+                },
+              },
+            ],
+            {
+              compress: 0.7, // Adjust the compression quality (0 - 1)
+              base64: true,
+            }
+          );
+          return compressed.base64;
+        } catch (error) {
+          console.error('Error compressing base64 string:', error);
+          return base64; // Return the original base64 if compression fails
+        }
+    };
+    
     handlePost = async () => {
+        const compressedImageBase64 = imageBase64 ? await compressBase64(imageBase64) : null;
+      
         await axios.post(`${BASE_URL}/user/chat`, {
-            phone_number: userData.phone,
-            first_name: userData.fname,
-            last_name: userData.lname,
-            title: title,
-            description: description
-        })
-        setIsModalVisible(false)
-    }
+          phone_number: userData.phone,
+          first_name: userData.fname,
+          last_name: userData.lname,
+          title: title,
+          description: description,
+          photo: compressedImageBase64 // Send null if compressedImageBase64 is falsy
+        });
+      
+        setIsModalVisible(false);
+        setImageBase64(''); // Reset the imageBase64 state after successful upload
+    };
 
     const fetchData = () => {
         axios
@@ -95,6 +151,12 @@ const Farmer = () => {
                                 {/* style={{ textAlign: 'center' }} */}
                                 <Text style={{ textAlign: 'center' }}>{item.first_name} {item.last_name}</Text>
                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.title}</Text>
+                                {item.photo && ( // Check if item.photo exists and is truthy
+                                <Image
+                                    source={{ uri: `data:image/jpeg;base64,${item.photo}` }}
+                                    style={{ width: 200, height: 200 }}
+                                />
+                                )}
                                 <Text style={{ textAlign: 'center' }}>______________________________</Text>
                                 <Text style={{ paddingTop: 15 }}>{item.description}</Text>
                                 <Text style={{ marginTop:20 }}>
@@ -118,32 +180,44 @@ const Farmer = () => {
                         <Text style={styles.postText}>Post</Text>
                     </TouchableOpacity>
                     <Modal transparent={true} visible={isModalVisible} animationType="slide">
-                        <BlurView
-                            style={{ flex: 1 }}
-                            intensity={10}
-                        >
+                        <BlurView style={{ flex: 1 }} intensity={10}>
                             <KeyboardAvoidingView>
-                                <View style={styles.modalMain}>
-                                    <Text style={styles.modalTitle}>Post Something</Text>
-                                    <TextInput
-                                        style={styles.inputTitle}
-                                        placeholder="Title"
-                                        placeholderTextColor={'black'}
-                                        onChangeText={(text) => setTitle(text)}
-                                    />
-                                    <TextInput
-                                        style={styles.inputDesc}
-                                        placeholder="Description"
-                                        placeholderTextColor={'black'}
-                                        onChangeText={(text) => setDescription(text)}
-                                    />
-                                    <TouchableOpacity style={styles.modalPost} onPress={handlePost}>
-                                        <Text style={styles.modalText}>Post</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.modalCancel} onPress={() => { setIsModalVisible(false) }}>
-                                        <Text style={styles.modalText}>Cancel</Text>
-                                    </TouchableOpacity>
-                                </View>
+                            <View style={styles.modalMain}>
+                                <Text style={styles.modalTitle}>Post Something</Text>
+                                {imageBase64 && (
+                                <Image
+                                    source={{ uri: imageBase64 }}
+                                    style={{ width: 200, height: 200 }}
+                                />
+                                )}
+                                <TouchableOpacity onPress={handleImagePicker}>
+                                <Text>Select Image</Text>
+                                </TouchableOpacity>
+                                <TextInput
+                                style={styles.inputTitle}
+                                placeholder="Title"
+                                placeholderTextColor={'black'}
+                                onChangeText={(text) => setTitle(text)}
+                                />
+                                <TextInput
+                                style={styles.inputDesc}
+                                placeholder="Description"
+                                placeholderTextColor={'black'}
+                                onChangeText={(text) => setDescription(text)}
+                                />
+                                <TouchableOpacity style={styles.modalPost} onPress={handlePost}>
+                                <Text style={styles.modalText}>Post</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                style={styles.modalCancel}
+                                onPress={() => {
+                                    setIsModalVisible(false);
+                                    setImageBase64('');
+                                }}
+                                >
+                                <Text style={styles.modalText}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
                             </KeyboardAvoidingView>
                         </BlurView>
                     </Modal>
