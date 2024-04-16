@@ -117,14 +117,14 @@ const Profile = () => {
           <Text style={styles.value}>{userData.lname}</Text>
         </View>
 
-        <Button
+        {/* <Button
           title="Edit Profile"
           filled
           style={styles.editButton}
           onPress={() => {
             navigation.navigate('EditProfile');
           }}
-        />
+        /> */}
 
         <Button
           title="Crops grown"

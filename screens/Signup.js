@@ -89,19 +89,19 @@ const Signup = ({ navigation }) => {
               <Text style={styles.label}>Phone Number:</Text>
             </View>
             <TextInput
-              style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
+              style={styles.inputStyle}
               keyboardType="numeric"
               placeholder="Enter your Phone Number"
+              placeholderTextColor="gray"
               value={phone}
               onChangeText={handlePhone}
             />
-
             <View style={styles.nameContainer}>
               <View style={styles.name}>
                 <Text style={styles.label}>First Name:</Text>
 
                 <TextInput
-                  style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
+                  style={[styles.inputStyle]}
                   placeholder="Enter your first name"
                   value={fname}
                   onChangeText={handleFname}
@@ -112,7 +112,7 @@ const Signup = ({ navigation }) => {
                 <Text style={styles.label}>Last Name:</Text>
 
                 <TextInput
-                  style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
+                  style={[styles.inputStyle]}
                   placeholder="Enter your last name"
                   value={lname}
                   onChangeText={handleLname}
@@ -124,7 +124,7 @@ const Signup = ({ navigation }) => {
               <Text style={styles.label}>Password:</Text>
             </View>
             <TextInput
-              style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
+              style={[styles.inputStyle]}
               placeholder="Enter your password"
               secureTextEntry={true}
               value={password}
@@ -135,7 +135,7 @@ const Signup = ({ navigation }) => {
               <Text style={styles.label}>Confirm Password:</Text>
             </View>
             <TextInput
-              style={[styles.inputStyle, { placeholderTextColor: 'gray' }]}
+              style={[styles.inputStyle]}
               placeholder="Confirm your password"
               secureTextEntry={true}
               value={confirmPassword}
@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
     backgroundColor: 'white',
+    color: 'black',
   },
   nameContainer: {
     width: 200,
