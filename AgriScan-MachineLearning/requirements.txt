@@ -1,0 +1,7 @@
+flask
+numpy
+tensorflow==2.15.0
+pillow
+flask_cors
+supabase
+python-dotenv
