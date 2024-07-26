@@ -1,71 +1,106 @@
-# Frontend
+# 📱 AgriScan-Mobile
 
-The frontend of AgriScan-Mobile is responsible for providing a user-friendly interface for interacting with the mobile application. It is built using React Native, a framework for building native mobile apps using JavaScript and React. The frontend communicates with the backend to fetch data and display it to the user. It also handles user interactions and sends requests to the backend for processing.
+AgriScan-Mobile is an innovative agricultural mobile application that combines cutting-edge frontend technology, robust backend infrastructure, and advanced machine learning capabilities.
 
-## Installation
+## 🌟 Frontend (React Native)
 
-To install and run the frontend, follow these steps:
+The frontend is built with React Native, offering a smooth, native experience on both iOS and Android platforms.
 
-1. Clone the repository.
-2. Navigate to the `frontend` directory.
-3. Run `npm install` to install the required dependencies.
-4. Run `npm start` to start the development server.
+### 🛠️ Installation
 
-## Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Chirag30Sharma/AgriScan-Mobile.git
+   ```
+2. Navigate to the frontend directory:
+   ```bash
+   cd AgriScan-Mobile/frontend
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npx react-native start
+   ```
+5. Run on iOS or Android:
+   ```bash
+   npx react-native run-ios
+   # or
+   npx react-native run-android
+   ```
 
-Once the frontend is up and running, you can access the mobile application on your device or emulator. The application will load, and you can start using its features.
+### ✨ Key Features
 
-## Features
+- 🔐 Secure user authentication
+- 📊 Interactive data visualization dashboard
+- 🗺️ Geospatial mapping integration
+- 🔔 Push notifications for real-time updates
+- 📱 Responsive design optimized for various device sizes
 
-The frontend offers the following features:
+## 🖥️ Backend (Node.js & Express)
 
-- User authentication and authorization
-- Dashboard for data visualization
-- Interactive maps for displaying geographical data
-- Real-time updates and notifications
-- Responsive design for mobile devices
+The backend leverages the power and flexibility of Node.js and Express, with MongoDB as the database solution.
 
-# Backend
+### 🛠️ Installation
 
-The backend of AgriScan-Mobile is responsible for handling data storage, processing, and serving API endpoints. It is built using a server-side programming language such as Node.js and a framework like Express.js. The backend communicates with the frontend and the machine learning component to provide data and perform necessary computations.
+1. Navigate to the backend directory:
+   ```bash
+   cd AgriScan-Mobile/backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up MongoDB:
+   - Install MongoDB if not already installed
+   - Create a `.env` file with your MongoDB connection string:
+     ```
+     MONGODB_URI=your_mongodb_connection_string
+     ```
+4. Start the server:
+   ```bash
+   npm start
+   ```
+   
+### 💾 Database Schema
 
-## Installation
+Our MongoDB schema includes collections for users, crop data, and sensor readings. Refer to `schema.js` for detailed structure.
 
-To install and run the backend, follow these steps:
+## 🧠 Machine Learning (Python)
 
-1. Clone the repository.
-2. Navigate to the `backend` directory.
-3. Run `npm install` to install the required dependencies.
-4. Set up the database and configure the environment variables.
-5. Run `npm start` to start the server.
+The machine learning component, built with Python, provides predictive analytics and intelligent recommendations.
 
-## API Documentation
+### 🛠️ Setup
 
-The backend exposes a set of API endpoints that the frontend can use to interact with the mobile application. The documentation for these endpoints can be found in the API documentation file.
+1. Navigate to the machine learning directory:
+   ```bash
+   cd AgriScan-Mobile/ml
+   ```
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+3. Install required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the main script:
+   ```bash
+   python main.py
+   ```
 
-## Database
+### 🤖 Models
+ 
+- 🐛 Disease detection (Convolutional Neural Network)
+- 🌱 Disease Diagnosis (ResNet 50)
 
-The backend uses a database to store and retrieve data. The choice of database technology depends on the specific requirements of the application. Commonly used databases include MySQL, PostgreSQL, MongoDB, etc.
+### 🔄 Data Pipeline
 
-# Machine Learning
-
-The machine learning component of AgriScan-Mobile is responsible for analyzing and predicting agricultural data. It uses various algorithms and models to process the data and generate insights. The machine learning component is integrated with the backend to provide real-time predictions and recommendations.
-
-## Installation
-
-To install and run the machine learning component, follow these steps:
-
-1. Clone the repository.
-2. Navigate to the `machine-learning` directory.
-3. Install the required dependencies.
-4. Set up the necessary environment variables.
-5. Run the machine learning script.
-
-## Models
-
-The machine learning component uses pre-trained models to make predictions. These models are trained on a large dataset and can be fine-tuned for specific use cases. The models are stored in a separate directory and can be accessed by the machine learning script.
-
-## Data Preprocessing
-
-Before feeding the data to the machine learning models, it needs to be preprocessed. This involves cleaning the data, handling missing values, and transforming it into a suitable format for the models. The preprocessing steps are implemented in the machine learning script.
-
+The data pipeline includes:
+- 📥 Data ingestion from various agricultural sensors
+- 🧹 Data cleaning and normalization
+- 🔍 Feature extraction and selection
+- 🔀 Train-test splitting and cross-validation
